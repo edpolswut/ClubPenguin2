@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Montador Visual CP - Eixos X e Y</title>
+  <style>
+    body { font-family: sans-serif; background: #222; color: #eee; display: flex; gap: 20px; padding: 20px; }
+    .panel { background: #333; padding: 15px; border-radius: 8px; min-width: 350px; }
+    canvas { background: #555; border: 2px solid #777; border-radius: 8px; }
+    .layer { border-bottom: 1px solid #555; padding-bottom: 15px; margin-bottom: 15px; }
+    .controls-axis { display: flex; align-items: center; gap: 10px; margin-top: 10px; font-size: 14px; }
+    input[type=number] { 
+      width: 60px; padding: 8px; background: #444; color: white; 
+      border: 1px solid #666; border-radius: 4px; font-weight: bold; text-align: center;
+    }
+    button { background: #007bff; color: white; border: none; padding: 12px; cursor: pointer; border-radius: 4px; font-weight: bold; width: 100%;}
+    button:hover { background: #0056b3; }
+  </style>
+</head>
+<body>
+
+  <div>
+    <canvas id="tela" width="400" height="400"></canvas>
+  </div>
+
+  <div class="panel" id="controles">
+    <h3 style="margin-top:0;">Ajuste Fino (Eixos X e Y)</h3>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('tela');
+    const ctx = canvas.getContext('2d');
+    
+    const camadas = ['Base Azul (Fundo)', 'Barriga', 'Detalhes (Bico/Pés)'];
+    const dados = {};
+
+    function iniciar() {
+      const painel = document.getElementById('controles');
+      
+      camadas.forEach((nome, i) => {
+        // Agora inicializamos tanto x quanto y
+        dados[i] = { img: null, x: 0, y: 0, nome: nome };
+        
+        const div = document.createElement('div');
+        div.className = 'layer';
+        div.innerHTML = `
+          <strong>${nome}</strong><br>
+          <input type="file" accept="image/png" onchange="carregarImagem(event, ${i})" style="margin-top:5px;">
+          <div class="controls-axis">
+            X: <input type="number" step="1" value="0" oninput="atualizarEixo(${i}, 'x', this.value)"> px
+            &nbsp;|&nbsp;
+            Y: <input type="number" step="1" value="0" oninput="atualizarEixo(${i}, 'y', this.value)"> px
+          </div>
+        `;
+        painel.appendChild(div);
+      });
+
+      const btn = document.createElement('button');
+      btn.innerText = "Imprimir Código (F12)";
+      btn.onclick = imprimirCodigo;
+      painel.appendChild(btn);
+
+      desenhar();
+    }
+
+    function carregarImagem(evento, indice) {
+      const arquivo = evento.target.files[0];
+      if (!arquivo) return;
+      
+      const url = URL.createObjectURL(arquivo);
+      const imagem = new Image();
+      imagem.onload = () => desenhar();
+      imagem.src = url;
+      
+      dados[indice].img = imagem;
+    }
+
+    function atualizarEixo(indice, eixo, valor) {
+      // Atualiza o eixo correspondente (x ou y), usando 0 se estiver vazio
+      dados[indice][eixo] = parseInt(valor) || 0; 
+      desenhar();
+    }
+
+    function desenhar() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      // Chão/Cruz de referência
+      ctx.strokeStyle = '#ff4444';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(180, 200); ctx.lineTo(220, 200);
+      ctx.moveTo(200, 180); ctx.lineTo(200, 220);
+      ctx.stroke();
+
+      for (let i = 0; i < camadas.length; i++) {
+        if (dados[i].img) {
+          const img = dados[i].img;
+          // Agora aplica os deslocamentos customizados nos dois eixos
+          const posX = (canvas.width / 2) - (img.width / 2) + dados[i].x; 
+          const posY = (canvas.height / 2) - (img.height / 2) + dados[i].y;
+          ctx.drawImage(img, posX, posY);
+        }
+      }
+    }
+
+    function imprimirCodigo() {
+      let cod = "const PenguinOffsets_Dir1 = {\n";
+      cod += `  base: { x: ${dados[0].x}, y: ${dados[0].y} },\n`;
+      cod += `  belly: { x: ${dados[1].x}, y: ${dados[1].y} },\n`;
+      cod += `  details: { x: ${dados[2].x}, y: ${dados[2].y} }\n`;
+      cod += "};";
+      console.log(cod);
+      alert("Código gerado no Console! Aperte F12 para copiar.");
+    }
+
+    iniciar();
+  </script>
+</body>
+</html>
