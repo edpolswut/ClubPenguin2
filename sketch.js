@@ -37,7 +37,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(800, 600);
+  createCanvas(760, 480);
   sceneManager = new SceneManager();
   sceneManager.loadScene(new MenuScene());
 }
