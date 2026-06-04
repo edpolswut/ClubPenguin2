@@ -34,6 +34,16 @@ function preload() {
       Assets.penguin[dir].details = loadImage(`Penguin/img/DefineSprite_${ids.details}_1.png`);
     }
   }
+
+  Assets.rooms['town_center_bg'] = {};
+  Assets.rooms['town_center_bg'].SkyBg = loadImage('TownCenter/img/SkyBg.png');
+  Assets.rooms['town_center_bg'].CloudBg = loadImage('TownCenter/img/CloudBg.png');
+  Assets.rooms['town_center_bg'].MountainBg = loadImage('TownCenter/img/MountainBg.png');
+  Assets.rooms['town_center_bg'].TownBG = loadImage('TownCenter/img/TownBG.png');
+  Assets.rooms['town_center_bg'].Toldos = loadImage('TownCenter/img/Toldos.png');
+  Assets.rooms['town_center_bg'].Placas = loadImage('TownCenter/img/Placas.png');
+  Assets.rooms['town_center_bg'].ToldoDc = loadImage('TownCenter/img/ToldoDc.png');
+  Assets.rooms['town_center_bg'].PortaDc = loadImage('TownCenter/img/PortaDc.png');
 }
 
 function setup() {
@@ -151,6 +161,19 @@ class Prop {
   }
 }
 
+class ImageProp {
+  constructor(x, y, img) {
+    this.pos = createVector(x, y);
+    this.img = img;
+  }
+
+  update() {}
+
+  draw() {
+    image(this.img, this.pos.x, this.pos.y);
+  }
+}
+
 class Portal {
   constructor(x, y, radius, targetSceneClass) {
     this.pos = createVector(x, y);
@@ -179,7 +202,7 @@ class Portal {
 class MenuScene extends Scene {
   setup() {
     this.playBtn = new Button(width / 2, height / 2, 200, 60, "Jogar", () => {
-      sceneManager.loadScene(new MainScene());
+      sceneManager.loadScene(new TownCenterScene());
     });
   }
 
@@ -213,7 +236,7 @@ class MainScene extends Scene {
     this.renderables.push(new Prop(200, 500, color(50, 50, 200)));
 
     // Adiciona um portal de colisão
-    let minigamePortal = new Portal(650, 150, 40, MinigameScene);
+    let minigamePortal = new Portal(650, 150, 40, TownCenterScene);
     this.portals.push(minigamePortal);
     this.renderables.push(minigamePortal); // Renderiza o portal junto
   }
