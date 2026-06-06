@@ -189,7 +189,6 @@ class Portal {
     ellipse(this.pos.x, this.pos.y, this.radius * 2);
     fill(0);
     textAlign(CENTER);
-    text("MINIJOGO", this.pos.x, this.pos.y - this.radius - 10);
   }
 
   checkCollision(playerPos) {

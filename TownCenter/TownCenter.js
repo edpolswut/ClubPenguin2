@@ -8,9 +8,9 @@ class TownCenterScene extends Scene {
 
     // this.renderables.push(new ImageProp(400, 300, Assets.rooms['town_center_bg'].TownBG));
 
-    // let minigamePortal = new Portal(650, 150, 40, MinigameScene);
-    // this.portals.push(minigamePortal);
-    // this.renderables.push(minigamePortal);
+    let BeanCounterPortal = new Portal(400, 100, 40, BeanCounterScene);
+    this.portals.push(BeanCounterPortal);
+    this.renderables.push(BeanCounterPortal);
   }
 
   update() {
