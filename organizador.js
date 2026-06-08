@@ -3,8 +3,8 @@ const path = require('path');
 
 // Ajuste os caminhos de acordo com a sua pasta
 // Pelo seu print, o script deve apontar para onde as pastas DefineSprite estão
-const originDir = path.join(__dirname, 'Penguin', 'sprite', 'sprites'); 
-const destDir = path.join(__dirname, 'TownCenter', 'teste','img');
+const originDir = path.join(__dirname, 'SosPuffle', 'sprites'); 
+const destDir = path.join(__dirname, 'SosPuffle', 'img');
 
 // Cria a pasta de destino se ela não existir
 if (!fs.existsSync(destDir)){
