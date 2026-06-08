@@ -6,7 +6,6 @@ class TownCenterScene extends Scene {
 
     this.renderables.push(this.player);
 
-    // this.renderables.push(new ImageProp(400, 300, Assets.rooms['town_center_bg'].TownBG));
 
     let BeanCounterPortal = new Portal(400, 100, 40, BeanCounterScene);
     this.portals.push(BeanCounterPortal);
@@ -27,7 +26,6 @@ class TownCenterScene extends Scene {
 
   draw() {
     background(100, 150, 100);
-
 
     image(Assets.rooms['town_center_bg'].SkyBg, -10, 0);
     image(Assets.rooms['town_center_bg'].CloudBg, -5, 5);
