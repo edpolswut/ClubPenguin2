@@ -54,7 +54,7 @@ class ClothStoreScene extends Scene {
     for (let portal of this.portals) {
       if (portal.checkCollision(this.player.pos)) {
         this.cleanup();
-        let music = Assets.rooms['town_center_bg'].BgMusic;
+        let music = Assets.rooms['cloth_store_bg'].Musica;
         if (music) {
           music.stop();
         }
