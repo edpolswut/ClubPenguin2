@@ -35,7 +35,11 @@ function preload() {
     }
   }
 
+  Assets.sprites = {};
+  Assets.sprites.FundoBeanCounter = loadImage('BeanCounter/img/DefineSprite_311_1.png');
+
   Assets.rooms['town_center_bg'] = {};
+  Assets.rooms['town_center_bg'].BgMusic = loadSound('TownCenter/musica.mp3');
   Assets.rooms['town_center_bg'].SkyBg = loadImage('TownCenter/img/SkyBg.png');
   Assets.rooms['town_center_bg'].CloudBg = loadImage('TownCenter/img/CloudBg.png');
   Assets.rooms['town_center_bg'].MountainBg = loadImage('TownCenter/img/MountainBg.png');
@@ -44,12 +48,35 @@ function preload() {
   Assets.rooms['town_center_bg'].Placas = loadImage('TownCenter/img/Placas.png');
   Assets.rooms['town_center_bg'].ToldoDc = loadImage('TownCenter/img/ToldoDc.png');
   Assets.rooms['town_center_bg'].PortaDc = loadImage('TownCenter/img/PortaDc.png');
+  Assets.rooms['town_center_bg'].PlacaLoja = loadImage('TownCenter/img/PlacaLoja.png');
+  Assets.rooms['town_center_bg'].CantoEsq = loadImage('TownCenter/img/CantoEsq.png');
+  Assets.rooms['town_center_bg'].CantoDir = loadImage('TownCenter/img/CantoDir.png');
+  Assets.rooms['town_center_bg'].Baixo = loadImage('TownCenter/img/Baixo.png');
+  Assets.rooms['town_center_bg'].DoorStore = loadImage('TownCenter/img/DoorStore.png');
+  Assets.rooms['town_center_bg'].DoorCoffe = loadImage('TownCenter/img/DoorCoffe.png');
+  Assets.rooms['town_center_bg'].MesaCafe = loadImage('TownCenter/img/MesaCafe.png');
+  Assets.rooms['town_center_bg'].CadCafeEsq = loadImage('TownCenter/img/CadCafeEsq.png');
+  Assets.rooms['town_center_bg'].CadCafeDir = loadImage('TownCenter/img/CadCafeDir.png');
+  Assets.rooms['town_center_bg'].Cabideiro = loadImage('TownCenter/img/Cabideiro.png');
+  Assets.rooms['town_center_bg'].LateralBanco = loadImage('TownCenter/img/LateralBanco.png');
+  Assets.rooms['town_center_bg'].BarreiraDC = loadImage('TownCenter/img/BarreiraDC.png');
+  Assets.rooms['town_center_bg'].CollisionMap = loadImage('TownCenter/img/collision.png');
+
+  Assets.rooms['cloth_store_bg'] = {};
+  Assets.rooms['cloth_store_bg'].CollisionMap = loadImage('ClothStore/img/collision.png');
+  Assets.rooms['cloth_store_bg'].Bg = loadImage('ClothStore/img/Bg.png');
+  Assets.rooms['cloth_store_bg'].Mesa = loadImage('ClothStore/img/Mesa.png');
+  Assets.rooms['cloth_store_bg'].Bau = loadImage('ClothStore/img/Bau.png');
+  Assets.rooms['cloth_store_bg'].PeixeRoupas = loadImage('ClothStore/img/PeixeRoupas.png');
+  Assets.rooms['cloth_store_bg'].BtnLivro = loadImage('ClothStore/img/BtnLivro.png');
 }
 
 function setup() {
   createCanvas(760, 480);
   sceneManager = new SceneManager();
-  sceneManager.loadScene(new MenuScene());
+  sceneManager.loadScene(new ClothStoreScene());
+  
+  userStartAudio();
 }
 
 function draw() {
@@ -163,22 +190,27 @@ class Prop {
 
 class ImageProp {
   constructor(x, y, img) {
-    this.pos = createVector(x, y);
     this.img = img;
+    // Definimos a posição base (pés do objeto) como y + altura da imagem
+    // Isso alinha o ponto de pivô com os pés do pinguim para o sort
+    this.pos = createVector(x, y + (img ? img.height : 0));
   }
 
   update() {}
 
   draw() {
-    image(this.img, this.pos.x, this.pos.y);
+    // Desenhamos a imagem compensando a altura para que ela suba a partir da base
+    image(this.img, this.pos.x, this.pos.y - (this.img ? this.img.height : 0));
   }
 }
 
 class Portal {
-  constructor(x, y, radius, targetSceneClass) {
+  constructor(x, y, radius, targetSceneClass, targetX, targetY) {
     this.pos = createVector(x, y);
     this.radius = radius;
     this.targetSceneClass = targetSceneClass;
+    this.targetX = targetX;
+    this.targetY = targetY;
   }
 
   update() {}
@@ -201,7 +233,7 @@ class Portal {
 class MenuScene extends Scene {
   setup() {
     this.playBtn = new Button(width / 2, height / 2, 200, 60, "Jogar", () => {
-      sceneManager.loadScene(new TownCenterScene());
+      sceneManager.loadScene(new TownCenterScene(width / 2, height / 2));
     });
   }
 
@@ -221,8 +253,14 @@ class MenuScene extends Scene {
 }
 
 class MainScene extends Scene {
+  constructor(startX, startY) {
+    super();
+    this.startX = startX !== undefined ? startX : width / 4;
+    this.startY = startY !== undefined ? startY : height / 4;
+  }
+
   setup() {
-    this.player = new Pinguin(width / 4, height / 4);
+    this.player = new Pinguin(this.startX, this.startY);
     this.renderables = [];
     this.portals = [];
 
@@ -249,7 +287,7 @@ class MainScene extends Scene {
     // Verifica colisão do jogador com portais
     for (let portal of this.portals) {
       if (portal.checkCollision(this.player.pos)) {
-        sceneManager.loadScene(new portal.targetSceneClass());
+        sceneManager.loadScene(new portal.targetSceneClass(portal.targetX, portal.targetY));
       }
     }
   }

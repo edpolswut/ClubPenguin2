@@ -30,7 +30,7 @@ class Pinguin {
   constructor(x, y) {
     this.pos = createVector(x, y);
     this.target = createVector(x, y);
-    this.speed = 8;
+    this.speed = 5;
     
     this.dir = 1; // Começa olhando para frente
     this.color = color(50, 150, 250); // Azul,
@@ -40,7 +40,7 @@ class Pinguin {
     this.target.set(x, y);
   }
 
-  update() {
+  update(collisionMap) {
     let d = dist(this.pos.x, this.pos.y, this.target.x, this.target.y);
     if (d > this.speed) {
       let dirVec = p5.Vector.sub(this.target, this.pos);
@@ -52,10 +52,38 @@ class Pinguin {
 
       dirVec.normalize();
       dirVec.mult(this.speed);
+
+      // Calcula a posição futura
+      let nextPos = p5.Vector.add(this.pos, dirVec);
+
+      // Verifica se a posição futura colide com o mapa de cores
+      if (collisionMap && this.checkCollision(nextPos.x, nextPos.y, collisionMap)) {
+        this.target.set(this.pos); // Cancela o movimento restante
+        return;
+      }
+
       this.pos.add(dirVec);
     } else {
       this.pos.set(this.target);
     }
+  }
+
+  checkCollision(x, y, map) {
+    // Se os pixels não estiverem carregados, permite movimento por segurança
+    if (!map.pixels || map.pixels.length === 0) return false;
+
+    let ix = floor(x);
+    let iy = floor(y);
+
+    // Fora dos limites da imagem é considerado colisão
+    if (ix < 0 || ix >= map.width || iy < 0 || iy >= map.height) return true;
+
+    // O canal Alpha (A) é o quarto valor em cada pixel [R, G, B, A]
+    let index = (ix + iy * map.width) * 4 + 3;
+    let alpha = map.pixels[index];
+
+    // Se alpha > 10 (quase qualquer cor visível), há colisão
+    return alpha > 10;
   }
 
   // Função que converte o ângulo do mouse para as 8 direções do Club Penguin
@@ -99,9 +127,9 @@ class Pinguin {
       translate(this.pos.x, this.pos.y);
       
       if (espelhar) {
-        scale(-0.2, 0.2); 
+        scale(-0.12, 0.12); 
       } else {
-        scale(0.2, 0.2);
+        scale(0.12, 0.12);
       }
 
       let deslocamentoPe = -180; 
