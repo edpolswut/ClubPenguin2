@@ -19,6 +19,10 @@ class ClothStoreScene extends Scene {
     this.renderables.push(new ImageProp(610, 135, Assets.rooms['cloth_store_bg'].Mesa));
     this.renderables.push(new ImageProp(650, 235, Assets.rooms['cloth_store_bg'].Bau));
     this.renderables.push(new ImageProp(-32, -15, Assets.rooms['cloth_store_bg'].PeixeRoupas));
+    this.renderables.push(new ImageProp(143, 186, Assets.rooms['cloth_store_bg'].Cabide));
+    
+
+
     this.renderables.push(new ImageProp(287, 1000, Assets.rooms['cloth_store_bg'].BtnLivro));
 
     // Exemplo: se entrar no BeanCounter, o pinguim poderia aparecer em (500, 200) na próxima cena
@@ -31,10 +35,10 @@ class ClothStoreScene extends Scene {
     if (this.collisionMap) this.collisionMap.loadPixels();
 
     // Inicia a música de fundo em loop se ela não estiver tocando
-    // let music = Assets.rooms['town_center_bg'].BgMusic;
-    // if (music && !music.isPlaying()) {
-    //   music.loop();
-    // }
+    let music = Assets.rooms['cloth_store_bg'].Musica;
+    if (music && !music.isPlaying()) {
+      music.loop();
+    }
   }
 
   update() {
@@ -50,10 +54,10 @@ class ClothStoreScene extends Scene {
     for (let portal of this.portals) {
       if (portal.checkCollision(this.player.pos)) {
         this.cleanup();
-        // let music = Assets.rooms['town_center_bg'].BgMusic;
-        // if (music) {
-        //   music.stop();
-        // }
+        let music = Assets.rooms['town_center_bg'].BgMusic;
+        if (music) {
+          music.stop();
+        }
         sceneManager.loadScene(new portal.targetSceneClass(portal.targetX, portal.targetY));
       }
     }
@@ -64,6 +68,9 @@ class ClothStoreScene extends Scene {
 
     image(Assets.rooms['cloth_store_bg'].Bg, -50, -25);
 
+    image(Assets.rooms['cloth_store_bg'].Cadeira, 110, 270)
+    image(Assets.rooms['cloth_store_bg'].Cadeira, 135, 330)
+
 
     // this.animations.PiscaPisca.draw();
 
@@ -73,6 +80,9 @@ class ClothStoreScene extends Scene {
     for (let r of this.renderables) {
       r.draw();
     }
+
+    image(Assets.rooms['cloth_store_bg'].CadeiraBraco, 130, 340)
+    image(Assets.rooms['cloth_store_bg'].CadeiraBraco, 155, 400)
   }
 
   mousePressed() {

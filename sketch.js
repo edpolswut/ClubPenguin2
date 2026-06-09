@@ -63,12 +63,16 @@ function preload() {
   Assets.rooms['town_center_bg'].CollisionMap = loadImage('TownCenter/img/collision.png');
 
   Assets.rooms['cloth_store_bg'] = {};
+  Assets.rooms['cloth_store_bg'].Musica = loadSound('ClothStore/musica.mp3');
   Assets.rooms['cloth_store_bg'].CollisionMap = loadImage('ClothStore/img/collision.png');
   Assets.rooms['cloth_store_bg'].Bg = loadImage('ClothStore/img/Bg.png');
   Assets.rooms['cloth_store_bg'].Mesa = loadImage('ClothStore/img/Mesa.png');
   Assets.rooms['cloth_store_bg'].Bau = loadImage('ClothStore/img/Bau.png');
   Assets.rooms['cloth_store_bg'].PeixeRoupas = loadImage('ClothStore/img/PeixeRoupas.png');
   Assets.rooms['cloth_store_bg'].BtnLivro = loadImage('ClothStore/img/BtnLivro.png');
+  Assets.rooms['cloth_store_bg'].Cadeira = loadImage('ClothStore/img/Cadeira.png');
+  Assets.rooms['cloth_store_bg'].CadeiraBraco = loadImage('ClothStore/img/CadeiraBraco.png');
+  Assets.rooms['cloth_store_bg'].Cabide = loadImage('ClothStore/img/Cabide.png');
 }
 
 function setup() {
