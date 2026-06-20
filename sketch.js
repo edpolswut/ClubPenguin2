@@ -73,6 +73,55 @@ function preload() {
   Assets.rooms['cloth_store_bg'].Cadeira = loadImage('ClothStore/img/Cadeira.png');
   Assets.rooms['cloth_store_bg'].CadeiraBraco = loadImage('ClothStore/img/CadeiraBraco.png');
   Assets.rooms['cloth_store_bg'].Cabide = loadImage('ClothStore/img/Cabide.png');
+
+  /*Assets do Bean Counter*/
+  Assets.beanCounter = {};
+    Assets.beanCounter.music = loadSound('Beancounter/sound/1_music.mp3');
+    Assets.beanCounter.menu =loadImage('BeanCounter/img/DefineSprite_329_1.png');
+    Assets.beanCounter.logo =loadImage('BeanCounter/Logo.png');
+    Assets.beanCounter.bg =loadImage('BeanCounter/img/DefineSprite_311_1.png');
+    Assets.beanCounter.truck =loadImage('BeanCounter/img/DefineSprite_546_1.png');
+    Assets.beanCounter.pallet =loadImage('BeanCounter/img/DefineSprite_343_1.png');
+    Assets.beanCounter.floor =loadImage('BeanCounter/shapes/344.png');
+    Assets.beanCounter.bag =loadImage('BeanCounter/img/DefineSprite_22_1.png');
+    Assets.beanCounter.bagFall =loadImage('BeanCounter/img/DefineSprite_57_1.png');
+    Assets.beanCounter.anvil =loadImage('BeanCounter/img/DefineSprite_198_1.png');
+    Assets.beanCounter.anvilFloor =loadImage('BeanCounter/img/DefineSprite_200_1.png');
+    Assets.beanCounter.fall =loadImage('BeanCounter/img/DefineSprite_373_7.png');
+    Assets.beanCounter.anvilFall =loadImage('BeanCounter/img/DefineSprite_373_8.png');
+    Assets.beanCounter.player = []; 
+    for(let i = 1; i <= 6; i++){
+      Assets.beanCounter.player.push(loadImage(`BeanCounter/img/DefineSprite_373_${i}.png`));
+    }
+    Assets.beanCounter.piles = [];
+    for(let i = 1; i <= 61; i++){
+    Assets.beanCounter.piles.push(loadImage(`BeanCounter/img/DefineSprite_533_${i}.png`));
+    }
+  
+  /*Assets do Boia Cross*/
+  Assets.hydroHopper = {};
+    Assets.hydroHopper.logo =loadImage('HydroHopper/img/DefineSprite_2_LocaleImage-TITLE_1.png');
+    Assets.hydroHopper.menu =loadImage('HydroHopper/img/DefineSprite_12_1.png');
+    Assets.hydroHopper.bg =loadImage('HydroHopper/img/DefineSprite_61_1.png');
+    Assets.hydroHopper.boat =loadImage('HydroHopper/frames.gif');
+    Assets.hydroHopper.boia =loadImage('HydroHopper/img/DefineSprite_112_1.png');
+    Assets.hydroHopper.pinguin =loadImage('HydroHopper/img/DefineSprite_116_1.png');
+    Assets.hydroHopper.corPinguin =loadImage('HydroHopper/img/DefineSprite_115_1.png');
+    
+    Assets.hydroHopper.lixos = [];
+      Assets.hydroHopper.lixos.push(loadImage('HydroHopper/img/DefineSprite_73_1.png'));
+      Assets.hydroHopper.lixos.push(loadImage('HydroHopper/img/DefineSprite_65_1.png'));
+      Assets.hydroHopper.lixos.push(loadImage('HydroHopper/img/DefineSprite_68_1.png'));
+      Assets.hydroHopper.lixos.push(loadImage('HydroHopper/img/DefineSprite_70_1.png'));
+      Assets.hydroHopper.lixos.push(loadImage('HydroHopper/img/DefineSprite_76_1.png'));
+      Assets.hydroHopper.lixos.push(loadImage('HydroHopper/img/DefineSprite_78_1.png'));
+      Assets.hydroHopper.lixos.push(loadImage('HydroHopper/img/DefineSprite_80_1.png'));
+      Assets.hydroHopper.lixos.push(loadImage('HydroHopper/img/DefineSprite_82_1.png'));
+      Assets.hydroHopper.lixos.push(loadImage('HydroHopper/img/DefineSprite_84_1.png'));
+      Assets.hydroHopper.lixos.push(loadImage('HydroHopper/img/DefineSprite_86_1.png'));
+      Assets.hydroHopper.lixos.push(loadImage('HydroHopper/img/DefineSprite_89_1.png'));
+      Assets.hydroHopper.lixos.push(loadImage('HydroHopper/img/DefineSprite_91_1.png'));
+  
 }
 
 function setup() {

@@ -25,9 +25,14 @@ class TownCenterScene extends Scene {
     this.renderables.push(new ImageProp(460, 198, Assets.rooms['town_center_bg'].BarreiraDC));
 
     // Exemplo: se entrar no BeanCounter, o pinguim poderia aparecer em (500, 200) na próxima cena
-    let BeanCounterPortal = new Portal(400, 450, 40, BeanCounterScene);
-    this.portals.push(BeanCounterPortal);
-    this.renderables.push(BeanCounterPortal);
+    let beanCounterPortal = new Portal(350, 450, 40, BeanCounterStartScene);
+    this.portals.push(beanCounterPortal);
+    this.renderables.push(beanCounterPortal);
+
+    // Portal Boia Cross
+    let hydroHopperPortal = new Portal(450, 450, 40, HydroHopperStartScene);
+    this.portals.push(hydroHopperPortal);
+    this.renderables.push(hydroHopperPortal);
 
     let ClothStorePortal = new Portal(555, 190, 40, ClothStoreScene, 550, 190);
     this.portals.push(ClothStorePortal);
