@@ -32,8 +32,18 @@ class Pinguin {
     this.target = createVector(x, y);
     this.speed = 5;
     
-    this.dir = 1; // Começa olhando para frente
-    this.color = color(50, 150, 250); // Azul,
+    this.dir = 1;
+    this.color = color(50, 150, 250);
+
+    this.Clothes = PopulateClothes();
+    this.currentClothes = {
+      Hat: this.Clothes.Hat['Chapéu Viking'],
+      Face: null,
+      Neck: null,
+      Body: this.Clothes.Body['Casaco Preto'],
+      Hand: null,
+      Feet: null,
+    };
   }
 
   setTarget(x, y) {
@@ -153,6 +163,14 @@ class Pinguin {
         image(sprites.details, offsets.details.x, offsets.details.y);
       }
 
+      if (this.currentClothes.Body) {
+        this.currentClothes.Body.draw(renderDir, espelhar);
+      }
+
+      if (this.currentClothes.Hat) {
+        this.currentClothes.Hat.draw(renderDir, espelhar);
+      }
+
       pop();
     } else {
       // Placeholder se não tiver carregado
@@ -160,4 +178,121 @@ class Pinguin {
       ellipse(this.pos.x, this.pos.y, 40, 40);
     }
   }
+}
+
+const ClothingAdjustments = {
+  Hat: {
+    1: { x: 0, y: 0 },      // Frente - sem ajuste
+    2: { x: 0, y: -50 },    // Diagonal Direita-Baixo
+    3: { x: -10, y: -70 },    // Direita
+    4: { x: 0, y: -40 },    // Diagonal Direita-Cima
+    5: { x: 0, y: 0 },      // Costas - sem ajuste
+  },
+  Body: {
+    1: { x: 0, y: 0 },
+    2: { x: 0, y: 0 },
+    3: { x: 0, y: 0 },
+    4: { x: 0, y: 0 },
+    5: { x: 0, y: 0 },
+  },
+  Face: {
+    1: { x: 0, y: 0 },
+    2: { x: 0, y: 0 },
+    3: { x: 0, y: 0 },
+    4: { x: 0, y: 0 },
+    5: { x: 0, y: 0 },
+  },
+  Neck: {
+    1: { x: 0, y: 0 },
+    2: { x: 0, y: 0 },
+    3: { x: 0, y: 0 },
+    4: { x: 0, y: 0 },
+    5: { x: 0, y: 0 },
+  },
+  Hand: {
+    1: { x: 0, y: 0 },
+    2: { x: 0, y: 0 },
+    3: { x: 0, y: 0 },
+    4: { x: 0, y: 0 },
+    5: { x: 0, y: 0 },
+  },
+  Feet: {
+    1: { x: 0, y: 0 },
+    2: { x: 0, y: 0 },
+    3: { x: 0, y: 0 },
+    4: { x: 0, y: 0 },
+    5: { x: 0, y: 0 },
+  }
+};
+
+class ClothingItem {
+  constructor(name, sprites, category = 'Body', xOffset = 0, yOffset = 0) {
+    this.name = name;
+    this.sprites = sprites; // Objeto contendo as imagens por direção {1: img, 2: img, ...}
+    this.category = category; // Categoria: Hat, Body, Face, Neck, Hand, Feet
+    this.xOffset = xOffset;
+    this.yOffset = yOffset;
+  }
+
+  draw(renderDir, espelhar) {
+    let img = this.sprites[renderDir];
+    if (!img) return;
+
+    push();
+    // O pinguim já aplicou translate e scale, então desenhamos na origem
+    // ou aplicamos offsets específicos se necessário no futuro
+    imageMode(CENTER);
+
+    // Obtém ajustes específicos da categoria e direção
+    let adjustment = ClothingAdjustments[this.category] && ClothingAdjustments[this.category][renderDir]
+      ? ClothingAdjustments[this.category][renderDir]
+      : { x: 0, y: 0 };
+
+    // Combina offsets base com ajustes por categoria
+    let finalX = this.xOffset + adjustment.x;
+    let finalY = this.yOffset + adjustment.y;
+
+    image(img, finalX, finalY);
+    pop();
+  }
+
+}
+
+function PopulateClothes() {
+  let clothes = {
+      Hat: [],
+      Face: [],
+      Neck: [],
+      Body: [],
+      Hand: [],
+      Feet: []
+  };
+
+  //#region Hat
+
+  clothes.Hat['Chapéu Viking'] = new ClothingItem('Chapéu Viking', {
+    0: loadImage('Penguin/Clothes/VikingHat/0.png'),
+    1: loadImage('Penguin/Clothes/VikingHat/1.png'),
+    2: loadImage('Penguin/Clothes/VikingHat/2.png'),
+    3: loadImage('Penguin/Clothes/VikingHat/3.png'),
+    4: loadImage('Penguin/Clothes/VikingHat/4.png'),
+    5: loadImage('Penguin/Clothes/VikingHat/5.png')
+  }, 'Hat', 0, -145);
+
+  //#endregion Hat
+
+  //#region Body
+
+  clothes.Body['Casaco Preto'] = new ClothingItem('Casaco Preto', {
+    0: loadImage('Penguin/Clothes/BlackHoodie/0.png'),
+    1: loadImage('Penguin/Clothes/BlackHoodie/1.png'),
+    2: loadImage('Penguin/Clothes/BlackHoodie/2.png'),
+    3: loadImage('Penguin/Clothes/BlackHoodie/3.png'),
+    4: loadImage('Penguin/Clothes/BlackHoodie/4.png'),
+    5: loadImage('Penguin/Clothes/BlackHoodie/5.png')
+  }, 'Body');
+
+  //#endregion Body
+
+  return clothes;
 }
