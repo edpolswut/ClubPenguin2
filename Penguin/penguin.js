@@ -172,6 +172,14 @@ class Pinguin {
       if (this.currentClothes.Body) {
         this.currentClothes.Body.draw(renderDir, espelhar);
       }
+      
+      if (this.currentClothes.Neck) {
+        this.currentClothes.Neck.draw(renderDir, espelhar);
+      }
+      
+      if (this.currentClothes.Face) {
+        this.currentClothes.Face.draw(renderDir, espelhar);
+      }
 
       if (this.currentClothes.Hat) {
         this.currentClothes.Hat.draw(renderDir, espelhar);
@@ -204,18 +212,18 @@ const ClothingAdjustments = {
     5: { x: 0, y: 0 },
   },
   Face: {
-    1: { x: 0, y: 0 },
-    2: { x: 0, y: 0 },
-    3: { x: 0, y: 0 },
-    4: { x: 0, y: 0 },
-    5: { x: 0, y: 0 },
+    1: { x: 0, y: 50 },
+    2: { x: -20, y: 40 },
+    3: { x: -15, y: 20 },
+    4: { x: 0, y: 30 },
+    5: { x: 0, y: 30 },
   },
   Neck: {
-    1: { x: 0, y: 0 },
-    2: { x: 0, y: 0 },
-    3: { x: 0, y: 0 },
-    4: { x: 0, y: 0 },
-    5: { x: 0, y: 0 },
+    1: { x: 0, y: 160 },
+    2: { x: -20, y: 160 },
+    3: { x: -15, y: 140 },
+    4: { x: 0, y: 80 },
+    5: { x: 0, y: 80 },
   },
   Hand: {
     1: { x: 0, y: 0 },
@@ -281,7 +289,6 @@ function PopulateClothes() {
 
   //#region Colors
   clothes.Color['Azul Escuro'] = new ClothingItem('Azul Escuro', null, 'Color', 0, 0, 0, '#2E47AA');
-  clothes.Color['Azul Claro'] = new ClothingItem('Azul Claro', null, 'Color', 0, 0, 0, '#3296FA');
   clothes.Color['Vermelho'] = new ClothingItem('Vermelho', null, 'Color', 50, 0, 0, '#FF3333');
   clothes.Color['Verde'] = new ClothingItem('Verde', null, 'Color', 50, 0, 0, '#33CC33');
   clothes.Color['Preto'] = new ClothingItem('Preto', null, 'Color', 100, 0, 0, '#222222');
@@ -298,7 +305,69 @@ function PopulateClothes() {
     5: loadImage('Penguin/Clothes/VikingHat/5.png')
   }, 'Hat', 50, 0, -145);
 
+  clothes.Hat['Sombrero'] = new ClothingItem('Sombrero', {
+    0: null,
+    1: loadImage('Penguin/Clothes/Sombrero/1.png'),
+    2: loadImage('Penguin/Clothes/Sombrero/2.png'),
+    3: loadImage('Penguin/Clothes/Sombrero/3.png'),
+    4: loadImage('Penguin/Clothes/Sombrero/4.png'),
+    5: loadImage('Penguin/Clothes/Sombrero/5.png')
+  }, 'Hat', 50, 0, -145);
+
   //#endregion Hat
+
+  //#region Face
+
+  clothes.Face['Óculos de Sol'] = new ClothingItem('Óculos de Sol', {
+    0: null,
+    1: loadImage('Penguin/Clothes/RedSunGlasses/1.png'),
+    2: loadImage('Penguin/Clothes/RedSunGlasses/2.png'),
+    3: loadImage('Penguin/Clothes/RedSunGlasses/3.png'),
+    4: loadImage('Penguin/Clothes/RedSunGlasses/4.png'),
+    5: loadImage('Penguin/Clothes/RedSunGlasses/5.png')
+  }, 'Face', 50, 0, -145);
+
+  clothes.Face['Óculos 3d'] = new ClothingItem('Óculos 3d', {
+    0: null,
+    1: loadImage('Penguin/Clothes/3dGlasses/1.png'),
+    2: loadImage('Penguin/Clothes/3dGlasses/2.png'),
+    3: loadImage('Penguin/Clothes/3dGlasses/3.png'),
+    4: loadImage('Penguin/Clothes/3dGlasses/4.png'),
+    5: loadImage('Penguin/Clothes/3dGlasses/5.png')
+  }, 'Face', 50, 0, -145);
+
+  //#endregion Face
+
+  //#region Neck
+
+  // clothes.Neck['Capa'] = new ClothingItem('Capa', {
+  //   0: null,
+  //   1: loadImage('Penguin/Clothes/Cape/1.png'),
+  //   2: loadImage('Penguin/Clothes/Cape/2.png'),
+  //   3: loadImage('Penguin/Clothes/Cape/3.png'),
+  //   4: loadImage('Penguin/Clothes/Cape/4.png'),
+  //   5: loadImage('Penguin/Clothes/Cape/5.png')
+  // }, 'Neck', 50, 0, -145);
+
+  clothes.Neck['Camera'] = new ClothingItem('Camera', {
+    0: null,
+    1: loadImage('Penguin/Clothes/Camera/1.png'),
+    2: loadImage('Penguin/Clothes/Camera/2.png'),
+    3: loadImage('Penguin/Clothes/Camera/3.png'),
+    4: loadImage('Penguin/Clothes/Camera/4.png'),
+    5: loadImage('Penguin/Clothes/Camera/5.png')
+  }, 'Neck', 50, 0, -145);
+  
+  clothes.Neck['Guitar'] = new ClothingItem('Guitar', {
+    0: null,
+    1: loadImage('Penguin/Clothes/Guitar/1.png'),
+    2: loadImage('Penguin/Clothes/Guitar/2.png'),
+    3: loadImage('Penguin/Clothes/Guitar/3.png'),
+    4: loadImage('Penguin/Clothes/Guitar/4.png'),
+    5: loadImage('Penguin/Clothes/Guitar/5.png')
+  }, 'Neck', 150, 50, -145);
+
+  //#endregion Neck
 
   //#region Body
 
@@ -309,6 +378,24 @@ function PopulateClothes() {
     3: loadImage('Penguin/Clothes/BlackHoodie/3.png'),
     4: loadImage('Penguin/Clothes/BlackHoodie/4.png'),
     5: loadImage('Penguin/Clothes/BlackHoodie/5.png')
+  }, 'Body', 100);
+
+  // clothes.Body['Pato'] = new ClothingItem('Pato', {
+  //   0: null,
+  //   1: loadImage('Penguin/Clothes/Pato/1.png'),
+  //   2: loadImage('Penguin/Clothes/Pato/2.png'),
+  //   3: loadImage('Penguin/Clothes/Pato/3.png'),
+  //   4: loadImage('Penguin/Clothes/Pato/4.png'),
+  //   5: loadImage('Penguin/Clothes/Pato/5.png')
+  // }, 'Body', 100, 0, 50);
+
+  clothes.Body['Tuxedo'] = new ClothingItem('Tuxedo', {
+    0: null,
+    1: loadImage('Penguin/Clothes/Tuxedo/1.png'),
+    2: loadImage('Penguin/Clothes/Tuxedo/2.png'),
+    3: loadImage('Penguin/Clothes/Tuxedo/3.png'),
+    4: loadImage('Penguin/Clothes/Tuxedo/4.png'),
+    5: loadImage('Penguin/Clothes/Tuxedo/5.png')
   }, 'Body', 100);
 
   //#endregion Body

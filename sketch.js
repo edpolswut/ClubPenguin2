@@ -3,19 +3,19 @@ const GameState = {
   coins: 500,
   inventory: {
     Color: ['Azul Escuro'],
-    Hat: ['Chapéu Viking'],
-    Body: ['Casaco Preto'],
+    Hat: [],
+    Body: [],
     Face: [], 
-    Neck: [], 
+    Neck: ['Camera'], 
     Hand: [], 
     Feet: []
   },
   equipped: {
     Color: 'Azul Escuro',
-    Hat: 'Chapéu Viking',
-    Body: 'Casaco Preto',
+    Hat: null,
+    Body: null,
     Face: null, 
-    Neck: null, 
+    Neck: 'Camera', 
     Hand: null, 
     Feet: null
   },
@@ -25,7 +25,8 @@ const GameState = {
 const Assets = {
   rooms: {},
   sprites: {},
-  penguin: {}
+  penguin: {},
+  ClubPenguin: {}
 };
 
 let sceneManager;
@@ -120,6 +121,8 @@ function preload() {
   
   /*Assets do Boia Cross*/
   Assets.hydroHopper = {};
+    Assets.hydroHopper.music = loadSound('HydroHopper/sounds/1_musicclip1.mp3');
+    Assets.hydroHopper.soundDeath = loadSound('HydroHopper/sounds/4_crash_sound.mp3');
     Assets.hydroHopper.logo =loadImage('HydroHopper/img/DefineSprite_2_LocaleImage-TITLE_1.png');
     Assets.hydroHopper.menu =loadImage('HydroHopper/img/DefineSprite_12_1.png');
     Assets.hydroHopper.bg =loadImage('HydroHopper/img/DefineSprite_61_1.png');
@@ -142,12 +145,14 @@ function preload() {
       Assets.hydroHopper.lixos.push(loadImage('HydroHopper/img/DefineSprite_89_1.png'));
       Assets.hydroHopper.lixos.push(loadImage('HydroHopper/img/DefineSprite_91_1.png'));
   
-    AllClothesDB = PopulateClothes();
+  Assets.ClubPenguin.Logo = loadImage('Club-Penguin-Logo.png');
+  AllClothesDB = PopulateClothes();
 }
 
 function setup() {
   createCanvas(760, 480);
   sceneManager = new SceneManager();
+  // sceneManager.loadScene(new MenuScene());
   sceneManager.loadScene(new TownCenterScene());
   
   userStartAudio();
@@ -317,7 +322,7 @@ class Portal {
 
 class MenuScene extends Scene {
   setup() {
-    this.playBtn = new Button(width / 2, height / 2, 200, 60, "Jogar", () => {
+    this.playBtn = new Button(width / 2, 350, 200, 60, "Jogar", () => {
       sceneManager.loadScene(new TownCenterScene(width / 2, height / 2));
     });
   }
@@ -327,7 +332,11 @@ class MenuScene extends Scene {
     fill(255);
     textSize(40);
     textAlign(CENTER);
-    text("Meu Jogo Escalável", width / 2, height / 4);
+
+    push();
+    scale(0.5);
+    image(Assets.ClubPenguin.Logo, -40, -150);
+    pop();
     
     this.playBtn.draw();
   }

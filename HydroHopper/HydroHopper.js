@@ -68,6 +68,10 @@ class HydroHopperScene extends Scene {
         );
 
         this.obstaculos = [];
+
+        if (!Assets.hydroHopper.music.isPlaying()) {
+          Assets.hydroHopper.music.loop();
+        }
     }
 
     update() {
@@ -120,6 +124,8 @@ class HydroHopperScene extends Scene {
             ) {
 
                 this.vida--;
+
+                Assets.hydroHopper.soundDeath.play();
 
                 this.boia.resetar();
 
@@ -280,6 +286,8 @@ class HydroHopperGameOverScene extends Scene {
     }
 
     mousePressed() {
+        
+        Assets.hydroHopper.music.stop();
 
         sceneManager.loadScene(
             new TownCenterScene()

@@ -128,7 +128,6 @@ class CatalogScene extends Scene {
           if (GameState.coins >= item.price) {
             GameState.coins -= item.price;
             GameState.inventory[item.category].push(item.name);
-            // Toca um som de caixa registradora se tiver!
           } else {
             console.log("Moedas insuficientes!");
           }
