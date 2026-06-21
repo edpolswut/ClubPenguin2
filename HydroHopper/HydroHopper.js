@@ -3,9 +3,9 @@ class HydroHopperStartScene extends Scene {
     setup() {
 
         this.playBtn = new Button(
-            width / 2,
             260,
-            200,
+            360,
+            150,
             60,
             "Iniciar",
             () => {
@@ -16,9 +16,9 @@ class HydroHopperStartScene extends Scene {
         );
 
         this.backBtn = new Button(
-            width / 2,
-            340,
-            200,
+            500,
+            360,
+            150,
             60,
             "Voltar",
             () => {
@@ -30,11 +30,11 @@ class HydroHopperStartScene extends Scene {
     }
 
     draw() {
-        background(0);
+        background('#028eca');
 
-        image(Assets.hydroHopper.menu,0,0);
+        image(Assets.hydroHopper.menu, 160, 50);
 
-        image(Assets.hydroHopper.logo,240,90);
+        image(Assets.hydroHopper.logo,240, 60);
 
         this.playBtn.draw();
         this.backBtn.draw();
@@ -161,7 +161,7 @@ class HydroHopperScene extends Scene {
 
     draw() {
 
-        background(200);
+        background('white');
 
         image(Assets.hydroHopper.bg,-2,60);
 
@@ -320,7 +320,9 @@ class Boia {
 
         image(Assets.hydroHopper.boia,this.x,this.y);
         image(Assets.hydroHopper.pinguin,this.x,this.y);
-        image(Assets.hydroHopper.corPinguin,this.x,this.y);
+        tint(AllClothesDB.Color[GameState.equipped.Color].colorValue);
+        image(Assets.hydroHopper.corPinguin,this.x,this.y -5);
+        noTint();
 
         imageMode(CORNER);
     }

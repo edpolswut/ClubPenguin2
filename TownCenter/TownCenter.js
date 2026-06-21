@@ -25,16 +25,16 @@ class TownCenterScene extends Scene {
     this.renderables.push(new ImageProp(460, 198, Assets.rooms['town_center_bg'].BarreiraDC));
 
     // Exemplo: se entrar no BeanCounter, o pinguim poderia aparecer em (500, 200) na próxima cena
-    let beanCounterPortal = new Portal(350, 450, 40, BeanCounterStartScene);
+    let beanCounterPortal = new Portal(240, 200, 40, BeanCounterStartScene);
     this.portals.push(beanCounterPortal);
     this.renderables.push(beanCounterPortal);
 
     // Portal Boia Cross
-    let hydroHopperPortal = new Portal(450, 450, 40, HydroHopperStartScene);
+    let hydroHopperPortal = new Portal(80, 280, 40, HydroHopperStartScene);
     this.portals.push(hydroHopperPortal);
     this.renderables.push(hydroHopperPortal);
 
-    let ClothStorePortal = new Portal(555, 190, 40, ClothStoreScene, 550, 190);
+    let ClothStorePortal = new Portal(555, 190, 50, ClothStoreScene, 555, 190);
     this.portals.push(ClothStorePortal);
     this.renderables.push(ClothStorePortal);
 
@@ -47,6 +47,8 @@ class TownCenterScene extends Scene {
     if (music && !music.isPlaying()) {
       music.loop();
     }
+
+    sceneManager.playerCard = new PlayerCardUI(this.player);
   }
 
   update() {
@@ -111,6 +113,14 @@ class TownCenterScene extends Scene {
   }
 
   mousePressed() {
+    // Se clicar no pinguim, abre o inventário
+    let d = dist(mouseX, mouseY, this.player.pos.x, this.player.pos.y);
+    if (d < 40) { 
+      GameState.isPlayerCardOpen = true;
+      this.player.setTarget(this.player.pos.x, this.player.pos.y);
+      return;
+    }
+
     this.player.setTarget(mouseX, mouseY);
   }
 

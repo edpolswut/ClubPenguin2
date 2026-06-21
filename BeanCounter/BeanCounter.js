@@ -389,7 +389,7 @@ class BeanCounterScene extends Scene {
             Assets.beanCounter.music.stop();
 
             GameState.coins +=
-                floor(this.score / 10);
+                floor(this.score * 2);
             sceneManager.loadScene(
                 new BeanCounterVictoryScene()
             );
@@ -398,7 +398,10 @@ class BeanCounterScene extends Scene {
         // DERROTA
 
         if (this.lives <= 0) {
-             Assets.beanCounter.music.stop();
+            Assets.beanCounter.music.stop();
+            
+            GameState.coins +=
+                floor(this.score);
 
             sceneManager.loadScene(
                 new BeanCounterGameOverScene()

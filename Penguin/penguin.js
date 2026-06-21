@@ -35,14 +35,15 @@ class Pinguin {
     this.dir = 1;
     this.color = color(50, 150, 250);
 
-    this.Clothes = PopulateClothes();
+    this.Clothes = AllClothesDB;
     this.currentClothes = {
-      Hat: this.Clothes.Hat['Chapéu Viking'],
-      Face: null,
-      Neck: null,
-      Body: this.Clothes.Body['Casaco Preto'],
-      Hand: null,
-      Feet: null,
+      Color: GameState.equipped.Color ? this.Clothes.Color[GameState.equipped.Color] : this.Clothes.Color['Azul Escuro'],
+      Hat: GameState.equipped.Hat ? this.Clothes.Hat[GameState.equipped.Hat] : null,
+      Face: GameState.equipped.Face ? this.Clothes.Face[GameState.equipped.Face] : null,
+      Neck: GameState.equipped.Neck ? this.Clothes.Neck[GameState.equipped.Neck] : null,
+      Body: GameState.equipped.Body ? this.Clothes.Body[GameState.equipped.Body] : null,
+      Hand: GameState.equipped.Hand ? this.Clothes.Hand[GameState.equipped.Hand] : null,
+      Feet: GameState.equipped.Feet ? this.Clothes.Feet[GameState.equipped.Feet] : null,
     };
   }
 
@@ -119,14 +120,15 @@ class Pinguin {
     }
   }
 
-  draw() {
-    let renderDir = this.dir;
+  draw(overrideX, overrideY, overrideDir) {
+    // Usa a direção passada pela UI ou a direção real do pinguim no jogo
+    let renderDir = overrideDir !== undefined ? overrideDir : this.dir;
     let espelhar = false;
 
     // Se estiver andando para a esquerda, usa as imagens da direita e inverte o X
-    if (this.dir === 8) { renderDir = 2; espelhar = true; }
-    if (this.dir === 7) { renderDir = 3; espelhar = true; }
-    if (this.dir === 6) { renderDir = 4; espelhar = true; }
+    if (renderDir === 8) { renderDir = 2; espelhar = true; }
+    if (renderDir === 7) { renderDir = 3; espelhar = true; }
+    if (renderDir === 6) { renderDir = 4; espelhar = true; }
 
     let sprites = Assets.penguin[renderDir];
     let offsets = PenguinOffsets[renderDir];
@@ -134,7 +136,11 @@ class Pinguin {
     if (sprites && sprites.base && offsets) {
       push();
       
-      translate(this.pos.x, this.pos.y);
+      // CORREÇÃO: Se uma posição customizada for enviada (pela UI), usa ela. 
+      // Caso contrário, usa a posição real do mapa.
+      let posX = overrideX !== undefined ? overrideX : this.pos.x;
+      let posY = overrideY !== undefined ? overrideY : this.pos.y;
+      translate(posX, posY);
       
       if (espelhar) {
         scale(-0.12, 0.12); 
@@ -148,18 +154,18 @@ class Pinguin {
       imageMode(CENTER);
 
       // CAMADA 1: Base com a cor
-      tint(this.color);
+      let penguinColor = this.currentClothes.Color ? this.currentClothes.Color.colorValue : '#2E47AA';
+      tint(penguinColor);
       image(sprites.base, offsets.base.x, offsets.base.y);
+      noTint();
 
       // CAMADA 2: Barriga
       if (sprites.belly && offsets.belly) {
-        noTint(); 
         image(sprites.belly, offsets.belly.x, offsets.belly.y);
       }
 
       // CAMADA 3: Detalhes/Pés
       if (sprites.details && offsets.details) {
-        noTint();
         image(sprites.details, offsets.details.x, offsets.details.y);
       }
 
@@ -175,7 +181,9 @@ class Pinguin {
     } else {
       // Placeholder se não tiver carregado
       fill(255, 0, 0);
-      ellipse(this.pos.x, this.pos.y, 40, 40);
+      let posX = overrideX !== undefined ? overrideX : this.pos.x;
+      let posY = overrideY !== undefined ? overrideY : this.pos.y;
+      ellipse(posX, posY, 40, 40);
     }
   }
 }
@@ -226,12 +234,14 @@ const ClothingAdjustments = {
 };
 
 class ClothingItem {
-  constructor(name, sprites, category = 'Body', xOffset = 0, yOffset = 0) {
+  constructor(name, sprites, category = 'Body', price = 0, xOffset = 0, yOffset = 0, colorValue = null) {
     this.name = name;
     this.sprites = sprites; // Objeto contendo as imagens por direção {1: img, 2: img, ...}
     this.category = category; // Categoria: Hat, Body, Face, Neck, Hand, Feet
     this.xOffset = xOffset;
     this.yOffset = yOffset;
+    this.price = price;
+    this.colorValue = colorValue;
   }
 
   draw(renderDir, espelhar) {
@@ -260,13 +270,22 @@ class ClothingItem {
 
 function PopulateClothes() {
   let clothes = {
-      Hat: [],
-      Face: [],
-      Neck: [],
-      Body: [],
-      Hand: [],
-      Feet: []
+    Color: [],
+    Hat: [],
+    Face: [],
+    Neck: [],
+    Body: [],
+    Hand: [],
+    Feet: []
   };
+
+  //#region Colors
+  clothes.Color['Azul Escuro'] = new ClothingItem('Azul Escuro', null, 'Color', 0, 0, 0, '#2E47AA');
+  clothes.Color['Azul Claro'] = new ClothingItem('Azul Claro', null, 'Color', 0, 0, 0, '#3296FA');
+  clothes.Color['Vermelho'] = new ClothingItem('Vermelho', null, 'Color', 50, 0, 0, '#FF3333');
+  clothes.Color['Verde'] = new ClothingItem('Verde', null, 'Color', 50, 0, 0, '#33CC33');
+  clothes.Color['Preto'] = new ClothingItem('Preto', null, 'Color', 100, 0, 0, '#222222');
+  //#endregion Colors
 
   //#region Hat
 
@@ -277,7 +296,7 @@ function PopulateClothes() {
     3: loadImage('Penguin/Clothes/VikingHat/3.png'),
     4: loadImage('Penguin/Clothes/VikingHat/4.png'),
     5: loadImage('Penguin/Clothes/VikingHat/5.png')
-  }, 'Hat', 0, -145);
+  }, 'Hat', 50, 0, -145);
 
   //#endregion Hat
 
@@ -290,9 +309,11 @@ function PopulateClothes() {
     3: loadImage('Penguin/Clothes/BlackHoodie/3.png'),
     4: loadImage('Penguin/Clothes/BlackHoodie/4.png'),
     5: loadImage('Penguin/Clothes/BlackHoodie/5.png')
-  }, 'Body');
+  }, 'Body', 100);
 
   //#endregion Body
 
   return clothes;
 }
+
+var AllClothesDB;

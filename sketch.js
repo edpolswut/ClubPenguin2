@@ -1,6 +1,25 @@
 // GLOBAL STATE
 const GameState = {
-  coins: 0
+  coins: 500,
+  inventory: {
+    Color: ['Azul Escuro'],
+    Hat: ['Chapéu Viking'],
+    Body: ['Casaco Preto'],
+    Face: [], 
+    Neck: [], 
+    Hand: [], 
+    Feet: []
+  },
+  equipped: {
+    Color: 'Azul Escuro',
+    Hat: 'Chapéu Viking',
+    Body: 'Casaco Preto',
+    Face: null, 
+    Neck: null, 
+    Hand: null, 
+    Feet: null
+  },
+  isPlayerCardOpen: false
 };
 
 const Assets = {
@@ -73,7 +92,8 @@ function preload() {
   Assets.rooms['cloth_store_bg'].Cadeira = loadImage('ClothStore/img/Cadeira.png');
   Assets.rooms['cloth_store_bg'].CadeiraBraco = loadImage('ClothStore/img/CadeiraBraco.png');
   Assets.rooms['cloth_store_bg'].Cabide = loadImage('ClothStore/img/Cabide.png');
-
+  Assets.rooms['cloth_store_bg'].Catalogo = loadImage('ClothStore/img/Catalogo.png');
+  
   /*Assets do Bean Counter*/
   Assets.beanCounter = {};
     Assets.beanCounter.music = loadSound('Beancounter/sound/1_music.mp3');
@@ -122,12 +142,13 @@ function preload() {
       Assets.hydroHopper.lixos.push(loadImage('HydroHopper/img/DefineSprite_89_1.png'));
       Assets.hydroHopper.lixos.push(loadImage('HydroHopper/img/DefineSprite_91_1.png'));
   
+    AllClothesDB = PopulateClothes();
 }
 
 function setup() {
   createCanvas(760, 480);
   sceneManager = new SceneManager();
-  sceneManager.loadScene(new ClothStoreScene());
+  sceneManager.loadScene(new TownCenterScene());
   
   userStartAudio();
 }
@@ -145,6 +166,7 @@ function mousePressed() {
 class SceneManager {
   constructor() {
     this.currentScene = null;
+    this.playerCard = null;
   }
 
   loadScene(scene) {
@@ -155,7 +177,7 @@ class SceneManager {
   }
 
   update() {
-    if (this.currentScene && this.currentScene.update) {
+    if (!GameState.isPlayerCardOpen && this.currentScene && this.currentScene.update) {
       this.currentScene.update();
     }
   }
@@ -164,9 +186,19 @@ class SceneManager {
     if (this.currentScene && this.currentScene.draw) {
       this.currentScene.draw();
     }
+
+    if (this.playerCard) {
+      this.playerCard.draw();
+    }
   }
 
   mousePressed() {
+    // Se o playerCard estiver aberto, ele consome o clique
+    if (this.playerCard && this.playerCard.mousePressed(mouseX, mouseY)) {
+      return; 
+    }
+
+    // Caso contrário, passa para a cena
     if (this.currentScene && this.currentScene.mousePressed) {
       this.currentScene.mousePressed();
     }
@@ -366,6 +398,13 @@ class MainScene extends Scene {
   }
 
   mousePressed() {
+    // Se clicar no pinguim, abre o inventário
+    let d = dist(mouseX, mouseY, this.player.pos.x, this.player.pos.y);
+    if (d < 40) { 
+      GameState.isPlayerCardOpen = true;
+      return;
+    }
+
     // Define o alvo do jogador baseado no clique
     this.player.setTarget(mouseX, mouseY);
   }

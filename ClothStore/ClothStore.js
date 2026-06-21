@@ -25,8 +25,7 @@ class ClothStoreScene extends Scene {
 
     this.renderables.push(new ImageProp(287, 1000, Assets.rooms['cloth_store_bg'].BtnLivro));
 
-    // Exemplo: se entrar no BeanCounter, o pinguim poderia aparecer em (500, 200) na próxima cena
-    let TownCenterPortal = new Portal(550, 150, 40, TownCenterScene, 555, 230);
+    let TownCenterPortal = new Portal(550, 150, 40, TownCenterScene, 530, 250);
     this.portals.push(TownCenterPortal);
     this.renderables.push(TownCenterPortal);
 
@@ -39,6 +38,8 @@ class ClothStoreScene extends Scene {
     if (music && !music.isPlaying()) {
       music.loop();
     }
+    
+    sceneManager.playerCard = new PlayerCardUI(this.player);
   }
 
   update() {
@@ -83,9 +84,25 @@ class ClothStoreScene extends Scene {
 
     image(Assets.rooms['cloth_store_bg'].CadeiraBraco, 130, 340)
     image(Assets.rooms['cloth_store_bg'].CadeiraBraco, 155, 400)
+
+    image(Assets.rooms['cloth_store_bg'].Catalogo, 670, 390)
   }
 
   mousePressed() {
+    // Se clicar no pinguim, abre o inventário
+    let d = dist(mouseX, mouseY, this.player.pos.x, this.player.pos.y);
+    if (d < 40) { 
+      GameState.isPlayerCardOpen = true;
+      this.player.setTarget(this.player.pos.x, this.player.pos.y);
+      return;
+    }
+
+    // Se clicar no catálogo, abre a loja
+    if (mouseX > 650 && mouseX < 750 && mouseY > 350 && mouseY < 450) { // Ajuste a hitbox do botão
+      sceneManager.loadScene(new CatalogScene(this)); // Passa a cena atual para poder voltar
+      return;
+    }
+
     this.player.setTarget(mouseX, mouseY);
   }
 
