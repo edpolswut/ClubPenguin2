@@ -152,8 +152,8 @@ function preload() {
 function setup() {
   createCanvas(760, 480);
   sceneManager = new SceneManager();
-  // sceneManager.loadScene(new MenuScene());
-  sceneManager.loadScene(new TownCenterScene());
+  sceneManager.loadScene(new MenuScene());
+  //sceneManager.loadScene(new TownCenterScene());
   
   userStartAudio();
 }
