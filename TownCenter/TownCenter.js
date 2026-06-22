@@ -12,22 +12,60 @@ class TownCenterScene extends Scene {
 
     // Carrega animações específicas desta cena
     this.animations = {
-      Luzes: new AnimatedSprite('TownCenter/animated/Luzes', 420, 47, 288, 115, 170, 25),
-      CaixaSom: new AnimatedSprite('TownCenter/animated/CaixaSom', 423, 143, 174, 31, 12, 25),
-      PiscaPisca: new AnimatedSprite('TownCenter/animated/PiscaPisca', 420, 6, 190, 113, 48, 25),
+      Luzes: new AnimatedSprite(
+        "TownCenter/animated/Luzes",
+        420,
+        47,
+        288,
+        115,
+        170,
+        25,
+      ),
+      CaixaSom: new AnimatedSprite(
+        "TownCenter/animated/CaixaSom",
+        423,
+        143,
+        174,
+        31,
+        12,
+        25,
+      ),
+      PiscaPisca: new AnimatedSprite(
+        "TownCenter/animated/PiscaPisca",
+        420,
+        6,
+        190,
+        113,
+        48,
+        25,
+      ),
     };
 
     this.renderables.push(this.player);
-    this.renderables.push(new ImageProp(287, 200, Assets.rooms['town_center_bg'].MesaCafe));
-    this.renderables.push(new ImageProp(-50, 363, Assets.rooms['town_center_bg'].Baixo));
-    this.renderables.push(new ImageProp(115, 225, Assets.rooms['town_center_bg'].LateralBanco));
-    this.renderables.push(new ImageProp(580, 190, Assets.rooms['town_center_bg'].Cabideiro));
-    this.renderables.push(new ImageProp(460, 198, Assets.rooms['town_center_bg'].BarreiraDC));
+    this.renderables.push(
+      new ImageProp(287, 200, Assets.rooms["town_center_bg"].MesaCafe),
+    );
+    this.renderables.push(
+      new ImageProp(-50, 363, Assets.rooms["town_center_bg"].Baixo),
+    );
+    this.renderables.push(
+      new ImageProp(115, 225, Assets.rooms["town_center_bg"].LateralBanco),
+    );
+    this.renderables.push(
+      new ImageProp(580, 190, Assets.rooms["town_center_bg"].Cabideiro),
+    );
+    this.renderables.push(
+      new ImageProp(460, 198, Assets.rooms["town_center_bg"].BarreiraDC),
+    );
 
     // Exemplo: se entrar no BeanCounter, o pinguim poderia aparecer em (500, 200) na próxima cena
     let beanCounterPortal = new Portal(240, 200, 40, BeanCounterStartScene);
     this.portals.push(beanCounterPortal);
     this.renderables.push(beanCounterPortal);
+
+    //let sosPufflePortal = new Portal(10, 300, 80, SosPuffleStartScene);
+    //this.portals.push(sosPufflePortal);
+    //this.renderables.push(sosPufflePortal);
 
     // Portal Boia Cross
     let hydroHopperPortal = new Portal(80, 280, 40, HydroHopperStartScene);
@@ -39,11 +77,11 @@ class TownCenterScene extends Scene {
     this.renderables.push(ClothStorePortal);
 
     // Prepara o mapa de colisão para leitura rápida de pixels
-    this.collisionMap = Assets.rooms['town_center_bg'].CollisionMap;
+    this.collisionMap = Assets.rooms["town_center_bg"].CollisionMap;
     if (this.collisionMap) this.collisionMap.loadPixels();
 
     // Inicia a música de fundo em loop se ela não estiver tocando
-    let music = Assets.rooms['town_center_bg'].BgMusic;
+    let music = Assets.rooms["town_center_bg"].BgMusic;
     if (music && !music.isPlaying()) {
       music.loop();
     }
@@ -71,13 +109,15 @@ class TownCenterScene extends Scene {
       if (portal.checkCollision(this.player.pos)) {
         // Limpa animações antes de mudar de cena
         this.cleanup();
-        
+
         // Acessamos a música através do objeto Assets, pois 'music' era local ao setup
-        let music = Assets.rooms['town_center_bg'].BgMusic;
+        let music = Assets.rooms["town_center_bg"].BgMusic;
         if (music) {
           music.stop();
         }
-        sceneManager.loadScene(new portal.targetSceneClass(portal.targetX, portal.targetY));
+        sceneManager.loadScene(
+          new portal.targetSceneClass(portal.targetX, portal.targetY),
+        );
       }
     }
   }
@@ -85,25 +125,24 @@ class TownCenterScene extends Scene {
   draw() {
     background(100, 150, 100);
 
-    image(Assets.rooms['town_center_bg'].SkyBg, -10, 0);
-    image(Assets.rooms['town_center_bg'].CloudBg, -5, 5);
-    image(Assets.rooms['town_center_bg'].MountainBg, 40, 18);
-    image(Assets.rooms['town_center_bg'].PortaDc, 403, 137);
-    image(Assets.rooms['town_center_bg'].TownBG, -50, 5);
-    image(Assets.rooms['town_center_bg'].DoorStore, 540, 130);
-    image(Assets.rooms['town_center_bg'].DoorCoffe, 190, 160);
+    image(Assets.rooms["town_center_bg"].SkyBg, -10, 0);
+    image(Assets.rooms["town_center_bg"].CloudBg, -5, 5);
+    image(Assets.rooms["town_center_bg"].MountainBg, 40, 18);
+    image(Assets.rooms["town_center_bg"].PortaDc, 403, 137);
+    image(Assets.rooms["town_center_bg"].TownBG, -50, 5);
+    image(Assets.rooms["town_center_bg"].DoorStore, 540, 130);
+    image(Assets.rooms["town_center_bg"].DoorCoffe, 190, 160);
     this.animations.PiscaPisca.draw();
     this.animations.Luzes.draw();
-    image(Assets.rooms['town_center_bg'].Toldos, 170, 90);
-    image(Assets.rooms['town_center_bg'].Placas, 102, 63);
-    image(Assets.rooms['town_center_bg'].ToldoDc, 388, 112);
-    image(Assets.rooms['town_center_bg'].CadCafeEsq, 255, 195);
-    image(Assets.rooms['town_center_bg'].CadCafeDir, 330, 185);
-    image(Assets.rooms['town_center_bg'].PlacaLoja, 518, 45);
-    image(Assets.rooms['town_center_bg'].CantoEsq, -50, 265);
-    image(Assets.rooms['town_center_bg'].CantoDir, 690, 175);
+    image(Assets.rooms["town_center_bg"].Toldos, 170, 90);
+    image(Assets.rooms["town_center_bg"].Placas, 102, 63);
+    image(Assets.rooms["town_center_bg"].ToldoDc, 388, 112);
+    image(Assets.rooms["town_center_bg"].CadCafeEsq, 255, 195);
+    image(Assets.rooms["town_center_bg"].CadCafeDir, 330, 185);
+    image(Assets.rooms["town_center_bg"].PlacaLoja, 518, 45);
+    image(Assets.rooms["town_center_bg"].CantoEsq, -50, 265);
+    image(Assets.rooms["town_center_bg"].CantoDir, 690, 175);
     this.animations.CaixaSom.draw();
-
 
     this.renderables.sort((a, b) => a.pos.y - b.pos.y);
 
@@ -115,7 +154,7 @@ class TownCenterScene extends Scene {
   mousePressed() {
     // Se clicar no pinguim, abre o inventário
     let d = dist(mouseX, mouseY, this.player.pos.x, this.player.pos.y);
-    if (d < 40) { 
+    if (d < 40) {
       GameState.isPlayerCardOpen = true;
       this.player.setTarget(this.player.pos.x, this.player.pos.y);
       return;
@@ -132,6 +171,6 @@ class TownCenterScene extends Scene {
       this.animations.CaixaSom.remove();
     }
   }
-    // Exemplo de som espontâneo (SFX) ao clicar para andar
-    // if (Assets.sfx.snowClick) Assets.sfx.snowClick.play();
+  // Exemplo de som espontâneo (SFX) ao clicar para andar
+  // if (Assets.sfx.snowClick) Assets.sfx.snowClick.play();
 }
