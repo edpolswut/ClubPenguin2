@@ -12,7 +12,7 @@ Nicolas Jacinto Grzebieniak de Oliveira
 
 ## ▶️ Vídeo de defesa
 
-https://youtu.be/MHaWtAD_hZM
+https://youtu.be/CwStj8XSdxk
 
 ## ✨ Funcionalidades
 
