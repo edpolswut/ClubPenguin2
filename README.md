@@ -1,4 +1,4 @@
-content = """<h1 align="center">🐧 Club Penguin 2 - p5.js</h1>
+<h1 align="center">🐧 Club Penguin 2 - p5.js</h1>
 
 ## 📋 Sobre o Projeto
 
