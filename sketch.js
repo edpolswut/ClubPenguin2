@@ -6,7 +6,7 @@ const GameState = {
     Hat: [],
     Body: [],
     Face: [], 
-    Neck: ['Camera'], 
+    Neck: [], 
     Hand: [], 
     Feet: []
   },
@@ -15,7 +15,7 @@ const GameState = {
     Hat: null,
     Body: null,
     Face: null, 
-    Neck: 'Camera', 
+    Neck: null, 
     Hand: null, 
     Feet: null
   },
@@ -165,6 +165,12 @@ function draw() {
 
 function mousePressed() {
   sceneManager.mousePressed();
+}
+
+function keyPressed() {
+  if (sceneManager) {
+    sceneManager.keyPressed();
+  }
 }
 
 // GERENCIADOR DE CENAS

@@ -63,10 +63,6 @@ class TownCenterScene extends Scene {
     this.portals.push(beanCounterPortal);
     this.renderables.push(beanCounterPortal);
 
-    //let sosPufflePortal = new Portal(10, 300, 80, SosPuffleStartScene);
-    //this.portals.push(sosPufflePortal);
-    //this.renderables.push(sosPufflePortal);
-
     // Portal Boia Cross
     let hydroHopperPortal = new Portal(80, 280, 40, HydroHopperStartScene);
     this.portals.push(hydroHopperPortal);
@@ -75,6 +71,10 @@ class TownCenterScene extends Scene {
     let ClothStorePortal = new Portal(555, 190, 50, ClothStoreScene, 555, 190);
     this.portals.push(ClothStorePortal);
     this.renderables.push(ClothStorePortal);
+
+    let sosPufflePortal = new Portal(600, 400, 40, SosPuffleStartScene);
+    this.portals.push(sosPufflePortal);
+    this.renderables.push(sosPufflePortal);
 
     // Prepara o mapa de colisão para leitura rápida de pixels
     this.collisionMap = Assets.rooms["town_center_bg"].CollisionMap;
